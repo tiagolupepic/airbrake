@@ -68,6 +68,12 @@ module Airbrake
           include Airbrake::Rails::ActiveJob
         end
       end
+
+      runner do
+        at_exit do
+          Airbrake.notify_sync($!) if $!
+        end
+      end
     end
   end
 end
